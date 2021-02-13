@@ -6,32 +6,22 @@ No rights reserved. Use as you wish.
 import os
 
 
+import os  # new
+
+
 class BaseConfig:
-    """
-    Configurations that are common for all environments
-    """
     TESTING = False
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_TRACK_MODIFICATIONS = False  # new
 
 
 class DevelopmentConfig(BaseConfig):
-    """
-    Configurations that are specific for the development environment
-    """
-    DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_DEV_URL')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')  # new
 
 
 class TestingConfig(BaseConfig):
-    """
-    Configurations that are specific for the testing environment
-    """
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_TEST_URL')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_TEST_URL')  # new
 
 
 class ProductionConfig(BaseConfig):
-    """
-    Configurations that are specific for the production environment
-    """
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_PROD_URL')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')  # new

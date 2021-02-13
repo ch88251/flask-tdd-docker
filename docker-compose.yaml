@@ -6,18 +6,17 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    entrypoint: ['/usr/src/app/entrypoint.sh']
+    entrypoint: ['/usr/src/app/entrypoint.sh']  # new
     volumes:
-      - .:/usr/src/app
+      - '.:/usr/src/app'
     ports:
       - 5004:5000
     environment:
       - FLASK_APP=src/__init__.py
       - FLASK_ENV=development
       - APP_SETTINGS=src.config.DevelopmentConfig
-      - DATABASE_DEV_URL=postgresql://postgres:postgres@api-db:5432/fitness_dev
+      - DATABASE_URL=postgresql://postgres:postgres@api-db:5432/fitness_dev
       - DATABASE_TEST_URL=postgresql://postgres:postgres@api-db:5432/fitness_test
-      - DATABASE_PROD_URL=postgresql://postgres:postgres@api-db:5432/fitness_prod
     depends_on:
       - api-db
 
@@ -30,4 +29,3 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-
