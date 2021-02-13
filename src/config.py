@@ -6,22 +6,20 @@ No rights reserved. Use as you wish.
 import os
 
 
-import os  # new
-
-
 class BaseConfig:
     TESTING = False
-    SQLALCHEMY_TRACK_MODIFICATIONS = False  # new
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SECRET_KEY = "my_secret"
 
 
 class DevelopmentConfig(BaseConfig):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')  # new
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 
 
 class TestingConfig(BaseConfig):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_TEST_URL')  # new
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_TEST_URL')
 
 
 class ProductionConfig(BaseConfig):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')  # new
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
