@@ -8,7 +8,7 @@ No rights reserved. Use as you wish.
 import os
 from flask import Flask, jsonify
 from flask_restx import Resource, Api
-from flask_sqlalchemy import SQLAlchemy  # new
+from flask_sqlalchemy import SQLAlchemy
 
 
 # instantiate the app
@@ -21,11 +21,10 @@ app_settings = os.getenv('APP_SETTINGS')
 app.config.from_object(app_settings)
 
 # instantiate the db
-db = SQLAlchemy(app)  # new
+db = SQLAlchemy(app)
 
 
-# model
-class User(db.Model):  # new
+class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(128), nullable=False)
@@ -57,5 +56,8 @@ class Health(Resource):
             'message': 'service is running!'
         }
 
+
+db.create_all()
+db.session.commit()
 
 api.add_resource(Health, '/health')
