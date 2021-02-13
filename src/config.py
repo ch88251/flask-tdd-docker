@@ -19,7 +19,7 @@ class DevelopmentConfig(BaseConfig):
     Configurations that are specific for the development environment
     """
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_DEV_URL')
 
 
 class TestingConfig(BaseConfig):

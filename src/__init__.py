@@ -41,6 +41,19 @@ class User(db.Model):
         self.email = email
 
 
+class Weight(db.Model):
+    __tablename__ = 'weight'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String(128), nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    weight = db.Column(db.Float, nullable=False)
+
+    def __init__(self, username, date, weight):
+        self.username = username
+        self.date = date
+        self.weight = weight
+
+
 class Health(Resource):
     """
     The Health resource is used for checking the health of this microservice
