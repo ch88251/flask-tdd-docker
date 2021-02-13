@@ -6,56 +6,33 @@ Date Created: Feb 12, 2021
 No rights reserved. Use as you wish.
 """
 import os
-from flask import Flask, jsonify
-from flask_restx import Resource, Api
-from flask_sqlalchemy import SQLAlchemy  # new
+
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 
-# instantiate the app
-app = Flask(__name__)
-
-api = Api(app)
-
-# set config
-app_settings = os.getenv('APP_SETTINGS')
-app.config.from_object(app_settings)
-
-# instantiate the db
-db = SQLAlchemy(app)  # new
+db = SQLAlchemy()
 
 
-# model
-class User(db.Model):  # new
-    __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(128), nullable=False)
-    email = db.Column(db.String(128), nullable=False)
-    active = db.Column(db.Boolean(), default=True, nullable=False)
+def create_app(script_info=None):
 
-    def __init__(self, username, email):
-        self.username = username
-        self.email = email
+    # instantiate the app
+    app = Flask(__name__)
 
+    # set config
+    app_settings = os.getenv('APP_SETTINGS')
+    app.config.from_object(app_settings)
 
-class Weight(db.Model):
-    __tablename__ = 'weight'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(128), nullable=False)
-    weight = db.Column(db.Float(3,1), nullable=False)
-    date = db.Column(db.Date, nullable=False)
+    # set up extensions
+    db.init_app(app)
 
-    def __init__(self, username, weight, date):
-        self.username = username
-        self.weight = weight
-        self.date = date
+    # register blueprints
+    from src.api.health import health_blueprint
+    app.register_blueprint(health_blueprint)
 
+    # shell context for flask cli
+    @app.shell_context_processor
+    def ctx():
+        return {'app': app, 'db': db}
 
-class Health(Resource):
-    def get(self):
-        return {
-            'status': 'success',
-            'message': 'service is running!'
-        }
-
-
-api.add_resource(Health, '/health')
+    return app

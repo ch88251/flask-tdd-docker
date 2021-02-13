@@ -3,15 +3,16 @@ Created by Charles F. Hayes
 Date Created: Feb 12, 2021
 No rights reserved. Use as you wish.
 """
+
 from flask.cli import FlaskGroup
 
-from src import app, db  # new
+from src import create_app, db
 
 
-cli = FlaskGroup(app)
+app = create_app()
+cli = FlaskGroup(create_app=create_app)
 
 
-# new
 @cli.command('recreate_db')
 def recreate_db():
     db.drop_all()
